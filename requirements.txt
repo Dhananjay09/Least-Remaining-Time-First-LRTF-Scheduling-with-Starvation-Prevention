@@ -1,0 +1,8 @@
+# For Gantt chart plotting
+matplotlib>=3.5
+
+# For data handling (built-in in Python, but listed for clarity)
+dataclasses; python_version < "3.7"
+
+# Optional: for better color handling in plots
+numpy>=1.21

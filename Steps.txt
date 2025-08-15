@@ -1,0 +1,50 @@
+Overview - 
+
+Small requests finish quickly (fast response).
+
+Big requests still get processed without being left behind (fairness).
+
+Workers can team up to speed up any single request if needed.
+
+
+
+Steps that code does.
+
+1. We have many requests (PDFs) waiting to be processed.
+
+    Each request has a certain number of pages.
+
+    We have multiple workers (threads), and each worker can process one page at a time.
+
+2. We try to be fair and fast at the same time.
+
+    Normally, we give priority to requests that have the least pages left (so they finish faster).
+
+    But if a request has been waiting too long, it should jump the line to avoid “starving” (never getting served).
+
+3. At each moment:
+
+    Check who is ready (arrived and not yet finished).
+
+    Increase their waiting time counter by 1 (unless they’re being processed).
+
+    Find any “starving” requests – ones that have been waiting too long.
+
+    If a starving request is found:
+
+    Give it as many workers as possible right now (so it makes big progress).
+
+    With the remaining workers, pick the requests with the fewest pages left and give them workers.
+
+4. Processing happens at the same time.
+
+    If a request gets 3 workers, 3 of its pages are done in that moment.
+
+    If a request finishes, we note its completion time.
+
+5. Repeat until all requests are done.
+
+    We keep doing steps 1–4 every moment until all pages of all requests are processed.
+
+    The result is a timeline showing which worker handled which request at each moment.
+
